@@ -1,14 +1,8 @@
-import LoadingButton from "@/components/LoadingButton";
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div>
-      <h1>Hello, World</h1>
-      <Button>Hello</Button>
-      <LoadingButton pending={true}>
-        Enviar
-      </LoadingButton>
+      <h1>Landing Page</h1>
     </div>
   );
 }
