@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { authClient } from "@/lib/auth-client";
 import { signInFormSchema } from "@/lib/auth-schema";
+import { ErrorContext } from "better-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,10 +31,6 @@ export default function SignInPage() {
 
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
 
-    // startTransition(async () => {
-
-    // });
-    setLoading(true);
     const { email, password } = values;
     const { data, error } = await authClient.signIn.email({
       email,
@@ -41,6 +38,7 @@ export default function SignInPage() {
       callbackURL: "/dashboard",
     }, {
       onRequest: () => {
+        setLoading(true);
         toast({
           title: "Please wait...",
         });
@@ -48,12 +46,17 @@ export default function SignInPage() {
       onSuccess: () => {
         // form.reset();
       },
-      onError: (ctx) => {
+      onError: (ctx: ErrorContext) => {
         setLoading(false);
-        toast({ title: ctx.error.message, variant: "destructive" });
-        form.setError("email", {
-          type: "manual",
-          message: ctx.error.message
+        // form.setError("email", {
+        //   type: "manual",
+        //   message: ctx.error.message
+        // });
+        console.log(ctx);
+        toast({
+          title: "Something went wrong",
+          description: ctx.error.message ?? "Something went wrong.",
+          variant: "destructive",
         });
       },
     });
@@ -100,14 +103,21 @@ export default function SignInPage() {
           </form>
         </Form>
       </CardContent>
-
-      <CardFooter className='flex justify-center'>
-        <p className='text-sm text-muted-foreground'>
+      <CardFooter className='flex justify-between'>
+        <div className='text-sm text-muted-foreground'>
           Don&apos;t have an account yet?{" "}
           <Link href='/sign-up' className='text-primary hover:underline'>
             Sign up
           </Link>
-        </p>
+        </div>
+        <div className="text-sm text-muted-foreground">
+          <Link
+            href="/forgot-password"
+            className="text-primary hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </CardFooter>
     </Card>
   );

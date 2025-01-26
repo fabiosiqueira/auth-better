@@ -36,12 +36,18 @@ export default function SignUPage() {
       callbackURL: "/sign-in",
     }, {
       onRequest: () => {
+        setLoading(true);
         toast({
           title: "Please wait...",
         });
       },
       onSuccess: () => {
         // form.reset();
+        toast({
+          title: "Account created",
+          description:
+            "Your account has been created. Check your email for a verification link.",
+        });
       },
       onError: (ctx) => {
         setLoading(false);

@@ -11,35 +11,33 @@ export const NavBar = async () => {
   });
 
   return (
-    <div className="border-b px-4">
-      <div className="flex items-center justify-between mx-auto max-w-4xl h-16">
-        <Link href="/" className="flex items-center gap-2">
-          <AirVent className="h-6 w-6" />
-          <span className="font-bold">nextsecure.</span>
-        </Link>
-        <div className="flex items-center gap-2">
-          {!session ? (<>
-            <Link href="sign-in" className={buttonVariants()}>
-              Sign In
-            </Link>
-            <Link href="sign-up" className={buttonVariants()}>
-              Sign Up
-            </Link>
-          </>) : <>
-            <form action={async () => {
-              "use server";
-              await auth.api.signOut({
-                headers: await headers()
-              });
-              redirect("/");
-            }}>
-              <Button type="submit" className={buttonVariants()}>
-                Logout
-              </Button>
-            </form>
-          </>}
+    <div className="border-b px-4 py-3 fixed top-0 left-0 right-0 z-50 bg-zinc-100 flex justify-between items-center">
+      <Link href="/" className="flex items-center gap-2">
+        <AirVent className="h-6 w-6" />
+        <span className="font-bold">nextsecure.</span>
+      </Link>
+      <div className="flex items-center gap-2">
+        {!session ? (<>
+          <Link href="sign-in" className={buttonVariants()}>
+            Sign In
+          </Link>
+          <Link href="sign-up" className={buttonVariants()}>
+            Sign Up
+          </Link>
+        </>) : <>
+          <form action={async () => {
+            "use server";
+            await auth.api.signOut({
+              headers: await headers()
+            });
+            redirect("/");
+          }}>
+            <Button type="submit" className={buttonVariants()}>
+              Logout
+            </Button>
+          </form>
+        </>}
 
-        </div>
       </div>
     </div>
   );

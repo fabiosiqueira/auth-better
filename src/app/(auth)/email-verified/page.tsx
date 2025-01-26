@@ -15,7 +15,7 @@ export default function EmailVerified() {
             <p className="text-gray-600">
               Your email has been successfully verified.
             </p>
-            <Link href="/" className={`${buttonVariants()} w-full`}>
+            <Link href="/dashboard" className={`${buttonVariants()} w-full`}>
               Go To Home
             </Link>
           </div>
