@@ -1,14 +1,17 @@
-import { auth } from "@/lib/auth";
-import { AirVent } from "lucide-react";
-import { headers } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Button, buttonVariants } from "./ui/button";
+"use client";
 
-export const NavBar = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  });
+import { authClient } from "@/lib/auth-client";
+import { AirVent } from "lucide-react";
+import Link from "next/link";
+import SignoutButton from "./SignoutButton";
+import { buttonVariants } from "./ui/button";
+
+export const NavBar = () => {
+  const { data, isPending } = authClient.useSession();
+  if (isPending) return <div>Loading...</div>;
+
+  const session = data;
+
 
   return (
     <div className="border-b px-4 py-3 fixed top-0 left-0 right-0 z-50 bg-zinc-100 flex justify-between items-center">
@@ -24,19 +27,7 @@ export const NavBar = async () => {
           <Link href="sign-up" className={buttonVariants()}>
             Sign Up
           </Link>
-        </>) : <>
-          <form action={async () => {
-            "use server";
-            await auth.api.signOut({
-              headers: await headers()
-            });
-            redirect("/");
-          }}>
-            <Button type="submit" className={buttonVariants()}>
-              Logout
-            </Button>
-          </form>
-        </>}
+        </>) : <SignoutButton />}
 
       </div>
     </div>

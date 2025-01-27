@@ -17,10 +17,11 @@ export default function DashboardPage() {
   const user = session.user;
 
   return (
-    <div className="mt-10 text-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <h1 className="text-2xl font-bold underline">Dashboard</h1>
       <ul>
         <li>Name: {user.name}</li>
+        <li>Role: {user.role}</li>
         <li>Email: {user.email}</li>
         <li>Date: {user.createdAt.toISOString()}</li>
         <li>Date: {user.createdAt.toUTCString()}</li>
